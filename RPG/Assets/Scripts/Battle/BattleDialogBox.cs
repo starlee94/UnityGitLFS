@@ -33,6 +33,7 @@ public class BattleDialogBox : MonoBehaviour
             dialogText.text += letter;
             yield return new WaitForSeconds(1f / letterPerSecond);
         }
+        yield return new WaitForSeconds(1f);
     }
 
     public void EnableDialogText(bool enabled)
@@ -62,7 +63,24 @@ public class BattleDialogBox : MonoBehaviour
                 actionTexts[i].color = Color.black;
             }
         }
-    } 
+    }
+    public void UpdateMoveSelection(int selectedMove, Move move)
+    {
+        for (int i = 0; i < moveTexts.Count; ++i)
+        {
+            if (i == selectedMove)
+            {
+                moveTexts[i].color = highlightedColor;
+            }
+            else
+            {
+                moveTexts[i].color = Color.black;
+            }
+        }
+
+        ppText.text = $"{move.PP}/{move.Base.PP}";
+        typeText.text = move.Base.Type.ToString();
+    }
 
     public void SetMoveNames(List<Move> moves)
     {

@@ -15,6 +15,7 @@ public class BattleSystem : MonoBehaviour
 
     BattleState state;
     int currentAction;
+    int currentMove;
 
     private void Start()
     {
@@ -31,9 +32,55 @@ public class BattleSystem : MonoBehaviour
         dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
 
         yield return StartCoroutine(dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared!"));
-        yield return new WaitForSeconds(1f);
 
         PlayerAction();
+    }
+
+    IEnumerator PerformPlayerMove()
+    {
+        state = BattleState.Busy;
+        var move = playerUnit.Pokemon.Moves[currentMove];
+        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} use {move.Base.Name}!");
+
+        var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        yield return enemyHud.UpdateHP();
+        yield return ShowDamageDetails(damageDetails);
+        if(damageDetails.Fainted)
+        {
+            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} Fainted.");
+        }
+        else
+        {
+            StartCoroutine(EnemyMove());
+        }
+    }
+
+    IEnumerator EnemyMove()
+    {
+        state = BattleState.EnemyMove;
+
+        var move = enemyUnit.Pokemon.RandomMove();
+        yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} use {move.Base.Name}!");
+
+        var damageDetails = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        yield return playerHud.UpdateHP();
+        yield return ShowDamageDetails(damageDetails);
+        if (damageDetails.Fainted)
+        {
+            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} Fainted.");
+        }
+        else
+        {
+            PlayerAction();
+        }
+
+    }
+
+    IEnumerator ShowDamageDetails(DamageDetails damageDetails)
+    {
+        if (damageDetails.Critical > 1f) yield return dialogBox.TypeDialog("It's a Critical Hit!");
+        if (damageDetails.TypeEffectiveness > 1f) yield return dialogBox.TypeDialog("It's super effective!");
+        if (damageDetails.TypeEffectiveness < 1f) yield return dialogBox.TypeDialog("It's not very effective...");
     }
 
     void PlayerAction()
@@ -60,7 +107,7 @@ public class BattleSystem : MonoBehaviour
         }
         else if(state == BattleState.PlayerMove)
         {
-            //HandleMoveSelection();
+            HandleMoveSelection();
         }
     }
 
@@ -96,7 +143,7 @@ public class BattleSystem : MonoBehaviour
             }
         }
     }
-    /*void HandleMoveSelection()
+    void HandleMoveSelection()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -112,5 +159,28 @@ public class BattleSystem : MonoBehaviour
                 --currentMove;
             }
         }
-    }*/
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (currentMove < playerUnit.Pokemon.Moves.Count - 2)
+            {
+                currentMove += 2;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (currentMove > 1)
+            {
+                currentMove -= 2;
+            }
+        }
+
+        dialogBox.UpdateMoveSelection(currentMove, playerUnit.Pokemon.Moves[currentMove]);
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            dialogBox.EnableMoveSelector(false);
+            dialogBox.EnableDialogText(true);
+            StartCoroutine(PerformPlayerMove()); 
+        }
+    }
 }
