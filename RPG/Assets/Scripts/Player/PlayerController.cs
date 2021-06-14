@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    public event Action OnEncountered;
 
     public float moveSpeed;
     public LayerMask solidObjectLayer;
@@ -24,7 +27,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    public void HandleUpdate()
     {
         if (!isMoving)
         {
@@ -54,9 +57,10 @@ public class PlayerController : MonoBehaviour
     {
         if(Physics2D.OverlapCircle(transform.position, 0.2f, grassLayer) != null)
         {
-            if(Random.Range(1, 101) <= 10)
+            if(UnityEngine.Random.Range(1, 101) <= 10)
             {
-                Debug.Log("Encounter a wild pokemon.");
+                animator.SetBool("isMoving", false);
+                OnEncountered();
             }
         }
     }
