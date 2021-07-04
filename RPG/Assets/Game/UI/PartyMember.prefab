@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5742283070869427044}
   - component: {fileID: 1651962803805751740}
   - component: {fileID: 3277122802916571499}
-  - component: {fileID: 8658870153364162519}
+  - component: {fileID: 1817538202047548883}
   m_Layer: 5
   m_Name: PartyMember
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.5
---- !u!114 &8658870153364162519
+--- !u!114 &1817538202047548883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,12 +88,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1602656959330424302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6230c3b308b1d149bdddeab7501d622, type: 3}
+  m_Script: {fileID: 11500000, guid: 5688de645d03e0047ada738c293c90f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nameText: {fileID: 4528462749229175475}
   levelText: {fileID: 1146896535614242292}
   hpBar: {fileID: 664622826619068486}
+  highlightedColor: {r: 0.12517802, g: 0.5904928, b: 0.9150943, a: 1}
 --- !u!1 &3408024351761399977
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,8 +129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -37.324768, y: 32}
-  m_SizeDelta: {x: 151.62, y: 99.4}
+  m_AnchoredPosition: {x: -36.325012, y: 27.0001}
+  m_SizeDelta: {x: 115.023, y: 69.58}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &7690357522808372573
 CanvasRenderer:
@@ -161,7 +162,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 80
+    m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -374,8 +375,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 31, y: 32}
-  m_SizeDelta: {x: 314.27, y: 99.4}
+  m_AnchoredPosition: {x: 31, y: 27}
+  m_SizeDelta: {x: 314.27, y: 69.58}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4172472602008836972
 CanvasRenderer:
@@ -407,7 +408,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 80
+    m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0

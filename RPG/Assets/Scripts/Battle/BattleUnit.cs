@@ -7,7 +7,11 @@ using DG.Tweening;
 public class BattleUnit : MonoBehaviour
 {
     [SerializeField] bool isPlayerUnit;
+    [SerializeField] BattleHud hud;
 
+
+    public BattleHud Hud { get { return hud; } }
+    public bool IsPlayerUnit { get { return isPlayerUnit; } }
     public Pokemon Pokemon { get; set; }
 
     Image image;
@@ -25,7 +29,9 @@ public class BattleUnit : MonoBehaviour
         Pokemon = pokemon;
         if (isPlayerUnit) { GetComponent<Image>().sprite = Pokemon.Base.BackSprite; }
         else { GetComponent<Image>().sprite = Pokemon.Base.FrontSprite; }
-        
+
+        hud.SetData(pokemon);
+
         image.color = originalColor;
         PlayEnterAnimation();
     }
@@ -36,6 +42,9 @@ public class BattleUnit : MonoBehaviour
         else image.transform.localPosition = new Vector2(500f, originalPos.y);
 
         image.transform.DOLocalMoveX(originalPos.x, 1f);
+
+        var sequence = DOTween.Sequence();
+        sequence.Append(image.material.DOColor(originalColor, 0.1f));
     }
 
     public void PlayAttackAnimation()
@@ -50,14 +59,14 @@ public class BattleUnit : MonoBehaviour
     public void PlayHitAnimation()
     {
         var sequence = DOTween.Sequence();
-        sequence.Append(image.DOColor(Color.red, 0.1f));
-        sequence.Append(image.DOColor(originalColor, 0.1f));
+        sequence.Append(image.material.DOColor(Color.red, 0.1f));
+        sequence.Append(image.material.DOColor(originalColor, 0.1f));
     }
 
     public void PlayFaintAnimation()
     {
         var sequence = DOTween.Sequence();
         sequence.Append(image.transform.DOLocalMoveY(originalPos.y - 150f, 0.5f));
-        sequence.Join(image.DOFade(0f, 0.5f));
+        sequence.Join(image.material.DOFade(0f, 0.5f));
     }
 }

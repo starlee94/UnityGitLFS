@@ -6,7 +6,7 @@ using UnityEngine;
 public class PokemonBase : ScriptableObject
 {
     // Start is called before the first frame update
-    [SerializeField] string name;
+    [SerializeField] string _name;
 
     [TextArea]
     [SerializeField] string description;
@@ -74,6 +74,15 @@ public enum PokemonType
 
 }
 
+
+public enum Stat
+{
+    Attack,
+    Defense,
+    SpAttack,
+    SpDefense,
+    Speed
+}
 public class TypeChart
 {
     static float[][] chart =
